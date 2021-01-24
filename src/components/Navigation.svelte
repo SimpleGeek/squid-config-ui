@@ -2,7 +2,6 @@
     import Slider from './Slider.svelte';
     import DeviceManager from './DeviceManager.svelte';
     import Whitelist from './Whitelist.svelte';
-    import LogViewer from './LogViewer.svelte';
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
@@ -25,6 +24,5 @@
 <div class="topnav">
     <a href="#a" on:click={() => {navigate(DeviceManager)}}>Devices</a>
     <a href="#a" on:click={() => {navigate(Whitelist)}}>Whitelist</a>
-    <a href="#a" on:click={() => {navigate(LogViewer)}}>Logs</a>
     <Slider on:toggle={handleThemeToggle}/>
 </div> 

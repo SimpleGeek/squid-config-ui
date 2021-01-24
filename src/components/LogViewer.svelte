@@ -1,1 +1,0 @@
-<h2>Log Viewer</h2>
