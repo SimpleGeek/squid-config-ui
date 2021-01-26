@@ -95,19 +95,19 @@ ul {
 	width: 100%;
 }
 
-li {
+li, option {
     margin: 0.95%;
     padding: 2%;
 	background-color: var(--primary-color);
 	font-size: 18px;
 }
 
-li:hover {
+li:hover, option:hover {
     background-color: var(--secondary-color);
     box-shadow: 2px 2px 3px var(--shadow-color);
 }
 
-li.selected {
+li.selected, option.selected {
 	background-color: var(--accent-color);
 }
 

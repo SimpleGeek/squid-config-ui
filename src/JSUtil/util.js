@@ -17,4 +17,8 @@ export default class Util {
         }
         return index;
     }
+
+    isEmptyOrSpaces(str){
+        return str === null || str.match(/^\s*$/) !== null;
+    }
 }
