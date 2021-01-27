@@ -63,6 +63,20 @@ body {
 	}
 }
 
+.column-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin-left: 25%;
+	width: 440px;
+}
+
+@media all and (max-width: 500px) {
+	.column-container {
+		margin-left: 75%;
+	}
+}
+
 label {
 	font-size: 18px;
 }
@@ -95,19 +109,26 @@ ul {
 	width: 100%;
 }
 
-li, option {
+ul.scrollable-list {
+	height: 200px;
+	width: 75%;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+li {
     margin: 0.95%;
     padding: 2%;
 	background-color: var(--primary-color);
 	font-size: 18px;
 }
 
-li:hover, option:hover {
+li:hover {
     background-color: var(--secondary-color);
     box-shadow: 2px 2px 3px var(--shadow-color);
 }
 
-li.selected, option.selected {
+li.selected {
 	background-color: var(--accent-color);
 }
 

@@ -68,7 +68,6 @@
     }
 </script>
 
-<h2>Device Manager</h2>
 <ul>
     {#each devices as device}
         <ListItem 
