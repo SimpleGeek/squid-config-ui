@@ -28,22 +28,29 @@
 </style>
 
 <script>
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+
     import ListItem from './ListItem.svelte';
     import Util from '../JSUtil/util.js';
+    import HttpHelper from '../JSUtil/httphelper.js';
     let util = new Util();
+    let http = new HttpHelper();
 
     let domainName = null;
     let domains = null;
+    let notificationMsg = null;
     const listId = 0;
-    const baseUrl = 'http://192.168.1.49:8080/squid-configuration/whitelist-domains/';
+    const baseUrl = 'http://192.168.1.49:8080/squid-configuration/whitelist-domains/'; // TODO: This can also be removed
+    const endpoint = 'squid-configuration/whitelist-domains/' + listId;
 
     function clearInput() {
         domainName = null;
     }
 
-    function filterDomains(domains) {
-        // Remove comments from return
-        return domains.filter(d => !d.startsWith('#'));
+    function filterDomains(domainList) {
+        // Remove comments from list of domain names
+        return domainList.filter(d => !d.startsWith('#'));
     }
 
     async function addDomain() {
@@ -53,6 +60,13 @@
             return;
         }
 
+        dispatch('notify', {
+            msg: 'This is a test message'
+        }); // TODO: Remove this when done testing
+
+        //domains = http.post(endpoint, {domainName: domainName}).then(r => filterDomains(r)); TODO: Add this back
+
+        /* TODO: Can remove this once other version is working
         domains = await fetch(baseUrl + listId + '?domainName=' + domainName, {
                 method: "POST",
                 headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -69,6 +83,7 @@
                 return filterDomains(json);
             })
             .catch(err => console.log(err));
+        */
         
         clearInput();
     }

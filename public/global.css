@@ -77,6 +77,15 @@ body {
 	}
 }
 
+.notification {
+	display: flex;
+	border-left: 1px solid;
+	border-color: var(--accent-color);
+	position: fixed;
+	top: 10;
+	right: 50;
+}
+
 label {
 	font-size: 18px;
 }
