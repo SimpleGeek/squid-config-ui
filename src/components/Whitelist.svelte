@@ -60,11 +60,7 @@
             return;
         }
 
-        dispatch('notify', {
-            msg: 'This is a test message'
-        }); // TODO: Remove this when done testing
-
-        //domains = http.post(endpoint, {domainName: domainName}).then(r => filterDomains(r)); TODO: Add this back
+        domains = http.post(endpoint, {domainName: domainName}).then(r => filterDomains(r));
 
         /* TODO: Can remove this once other version is working
         domains = await fetch(baseUrl + listId + '?domainName=' + domainName, {

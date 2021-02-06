@@ -12,8 +12,13 @@
 	let notificationOn = false;
 	let notificationMsg = null;
 	function displayNotification(event) {
+		// TODO: It should be possible to click these notifications away somehow
 		notificationMsg = event.detail.msg;
 		notificationOn = true;
+		// Remove toast after 8 seconds
+		setTimeout(() => {
+			notificationOn = false;
+		}, 8000);
 	}
 </script>
 

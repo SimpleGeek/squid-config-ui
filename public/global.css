@@ -79,11 +79,18 @@ body {
 
 .notification {
 	display: flex;
-	border-left: 1px solid;
+	border-left: 3px solid;
 	border-color: var(--accent-color);
-	position: fixed;
-	top: 10;
-	right: 50;
+	position: absolute;
+	top: 90px;
+	right: 50px;
+	background-color: var(--primary-color);
+	border-radius: 0 6px 6px 0;
+}
+
+.notification p {
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 label {

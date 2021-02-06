@@ -1,6 +1,10 @@
 export default class HttpHelper {
     constructor() {
         this.BASE_URL = 'http://192.168.1.49:8080/';
+        // TODO: Need to implement an actual login
+        // where you retrieve these credentials at some point.
+        this.user = 'admin';
+        this.password = 'somepass';
     }
 
     get(endpoint, requestParams) {
@@ -47,7 +51,8 @@ export default class HttpHelper {
             }
         }
         
-        // TODO: Add the token stuff here somewhere
+        // TODO: Get JWT
+        
         let fetchSettings = {
             method: reqMethod,
             headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -61,11 +66,15 @@ export default class HttpHelper {
 
         return fetch(fullUrl, fetchSettings)
         .then((response) => {
-            console.log('Status: ' + response.status); // TODO: Debugging only also ;-)
             if (!response.ok) {
-                // TODO: This needs to be better.  A lot better.
-                console.log(JSON.stringify(response));
-                alert('We had a server error.  Check the logs.');
+                if (response.status == 401) {
+                    // Access was denied, we need to get
+                    // a new token, and retry the request.
+                } else {
+                    // TODO: This needs to be better.  A lot better.
+                    console.log(JSON.stringify(response));
+                    alert('We had a server error.  Check the logs.');
+                }
             }
             return response.json();
         })
