@@ -61,26 +61,6 @@
         }
 
         domains = http.post(endpoint, {domainName: domainName}).then(r => filterDomains(r));
-
-        /* TODO: Can remove this once other version is working
-        domains = await fetch(baseUrl + listId + '?domainName=' + domainName, {
-                method: "POST",
-                headers: {"Content-type": "application/json; charset=UTF-8"}
-            })
-            .then((response) => {
-                if (!response.ok) {
-                    // TODO: This needs to be better.  A lot better.
-                    console.log(JSON.stringify(response));
-                    alert('We had a server error.  Check the logs.');
-                }
-                return response.json();
-            })
-            .then((json) => {
-                return filterDomains(json);
-            })
-            .catch(err => console.log(err));
-        */
-        
         clearInput();
     }
 </script>
