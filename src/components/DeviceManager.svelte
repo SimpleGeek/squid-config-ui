@@ -1,6 +1,6 @@
 <style>
     .control-container {
-        margin-left: 2%;
+        margin-left: 27%;
     }
 
     button {

@@ -6,27 +6,31 @@ export default class HttpHelper {
         this.numRetries = 0;
     }
 
-    get(endpoint, requestParams) {
-        return this.request(endpoint, 'GET', requestParams);
+    async get(endpoint) {
+        return await this.get(endpoint, null);
     }
 
-    post(endpoint, requestParams) {
-        return this.post(endpoint, requestParams, null);
+    async get(endpoint, requestParams) {
+        return await this.request(endpoint, 'GET', requestParams);
     }
 
-    post(endpoint, requestParams, body) {
-        return this.request(endpoint, 'POST', requestParams, body);
+    async post(endpoint, requestParams) {
+        return await this.post(endpoint, requestParams, null);
     }
 
-    delete(endpoint, requestParams) {
-        return this.request(endpoint, 'DELETE', requestParams);
+    async post(endpoint, requestParams, body) {
+        return await this.request(endpoint, 'POST', requestParams, body);
     }
 
-    request(endpoint, reqMethod, requestParams) {
-        return this.request(endpoint, reqMethod, requestParams, null);
+    async delete(endpoint, requestParams) {
+        return await this.request(endpoint, 'DELETE', requestParams);
     }
 
-    request(endpoint, reqMethod, requestParams, body) {
+    async request(endpoint, reqMethod, requestParams) {
+        return await this.request(endpoint, reqMethod, requestParams, null);
+    }
+
+    async request(endpoint, reqMethod, requestParams, body) {
         if (endpoint.startsWith('/')) {
             endpoint = endpoint.slice(1, endpoint.length);
         }
@@ -54,15 +58,8 @@ export default class HttpHelper {
         headers.append("Content-type", "application/json; charset=UTF-8");
         headers.append("Authorization", "Bearer " + this.currentToken);
         
-        // TODO
-        console.log('Headers:');
-        for (let h of headers.entries()) {
-            console.log(h[0] + ': ' + h[1]);
-        }
-
         let fetchSettings = {
             method: reqMethod,
-            //headers: {"Content-type": "application/json; charset=UTF-8"} TODO: Get rid of this later
             headers: headers
         };
 
@@ -73,63 +70,51 @@ export default class HttpHelper {
             });
         }
 
-        return fetch(fullUrl, fetchSettings)
-        .then((response) => {
-            // If anything other than a 401 occurs, reset the retry count.
-            if (!response.ok) {
-                if (response.status == 401) {
-                    // Access was denied, we need to get
-                    // a new token, and retry the request.
-                    if (this.numRetries >= this.MAX_RETRIES) {
-                        // We've hit our maximum retries against the auth service.
-                        // Bad!  Don't DoS the server, quit trying.
-                        console.log('Hit maximum number of authorization request retries.  ' +
-                        'Number of retries: ' + this.MAX_RETRIES);
-                        return null;
-                    }
-                    this.numRetries++;
-                    this.currentToken = this.getToken().then(t => {return t.text()});
-                    console.log("Retrying with this token:\n" + this.currentToken);
-                    this.request(endpoint, reqMethod, requestParams, body);
-                } else {
-                    // TODO: This needs to be better.  A lot better.
-                    console.log(JSON.stringify(response));
-                    alert('We had a server error.  Check the logs.');
-                    this.numRetries = 0;
+        const response = await fetch(fullUrl, fetchSettings);
+        let json;
+        // If anything other than a 401 occurs, reset the retry count.
+        if (!response.ok) {
+            if (response.status == 401) {
+                // Access was denied, we need to get
+                // a new token, and retry the request.
+                if (this.numRetries >= this.MAX_RETRIES) {
+                    // We've hit our maximum retries against the auth service.
+                    // Bad!  Don't DoS the server, quit trying.
+                    console.log('Hit maximum number of authorization request retries.  ' +
+                    'Number of retries: ' + this.MAX_RETRIES);
+                    return null;
                 }
+                this.numRetries++;
+                await this.getToken();
+                console.log("Retrying with this token:\n" + this.currentToken);
+                json = await this.request(endpoint, reqMethod, requestParams, body);
             } else {
+                // TODO: This needs to be better.  A lot better.
+                console.log(JSON.stringify(response));
+                alert('We had a server error.  Check the logs.');
                 this.numRetries = 0;
             }
-            return response.json();
-        })
-        .then((json) => {
-            console.log('Resp: ' + JSON.stringify(json)); // TODO: Debugging only
-            return json;
-        })
-        .catch(err => console.log(err));
+        } else {
+            this.numRetries = 0;
+            json = await response.json();
+        }
+        return json;
     }
 
-    getToken() {
+    async getToken() {
         // Get JWT
-        let jwt = null;
         let authReqHeaders = new Headers();
         authReqHeaders.append("Accept", "application/json");
         authReqHeaders.append("Content-Type", "application/json");
 
         // TODO: Longterm, we really don't want the username and password in plain
         // text.  Those should be entered by the user.
-        jwt = fetch(this.BASE_URL + "/squid-configuration/authenticate?user=admin&password=somepass",
+        const response = await fetch(this.BASE_URL + "/squid-configuration/authenticate?user=admin&password=somepass",
         {
             method: 'POST',
             headers: authReqHeaders,
             redirect: 'follow'
-        })
-        .then(response => response.text())
-        .then((result) => { 
-            console.log("Here's the response from the auth service: " + result); // TODO: Remove later
-            return result;
-        })
-        .catch(error => console.log('error', error));
-        return jwt;
+        });
+        this.currentToken = await response.text();
     }
 }

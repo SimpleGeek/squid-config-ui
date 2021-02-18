@@ -122,12 +122,11 @@ ul {
     list-style-type: none;
     padding-left: 1%;
 	padding-right: 1%;
-	width: 100%;
+	width: 75%;
 }
 
 ul.scrollable-list {
 	height: 200px;
-	width: 75%;
 	overflow: hidden;
 	overflow-y: scroll;
 }

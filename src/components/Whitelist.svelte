@@ -28,10 +28,11 @@
 </style>
 
 <script>
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     const dispatch = createEventDispatcher();
 
     import ListItem from './ListItem.svelte';
+    import LoadingSpinner from './LoadingSpinner.svelte';
     import Util from '../JSUtil/util.js';
     import HttpHelper from '../JSUtil/httphelper.js';
     let util = new Util();
@@ -39,9 +40,7 @@
 
     let domainName = null;
     let domains = null;
-    let notificationMsg = null;
     const listId = 0;
-    const baseUrl = 'http://192.168.1.49:8080/squid-configuration/whitelist-domains/'; // TODO: This can also be removed
     const endpoint = 'squid-configuration/whitelist-domains/' + listId;
 
     function clearInput() {
@@ -60,9 +59,18 @@
             return;
         }
 
-        domains = http.post(endpoint, {domainName: domainName}).then(r => filterDomains(r));
+        // Going to null while we're waiting on the call so that
+        // we can trigger the loading spinner.
+        domains = null;
+        domains = await http.post(endpoint, {domainName: domainName}).then(r => filterDomains(r));
         clearInput();
     }
+
+    async function getAllDomains() {
+        domains = await http.get(endpoint).then(r => filterDomains(r));
+    }
+
+    onMount(getAllDomains);
 </script>
 
 <div class="control-container">
@@ -79,4 +87,6 @@
             />
         {/each}
     </ul>
+{:else}
+    <LoadingSpinner />
 {/if}
