@@ -33,10 +33,14 @@
 
     import ListItem from './ListItem.svelte';
     import LoadingSpinner from './LoadingSpinner.svelte';
+    import Modal from './Modal.svelte';
     import Util from '../JSUtil/util.js';
     import HttpHelper from '../JSUtil/httphelper.js';
     let util = new Util();
     let http = new HttpHelper();
+
+    let displayConfirmation = false;
+    let domainToDelete = '';
 
     let domainName = null;
     let domains = null;
@@ -45,6 +49,8 @@
 
     function clearInput() {
         domainName = null;
+        domainToDelete = '';
+        displayConfirmation = false;
     }
 
     function filterDomains(domainList) {
@@ -59,8 +65,6 @@
             return;
         }
 
-        // Going to null while we're waiting on the call so that
-        // we can trigger the loading spinner.
         domains = null;
         domains = await http.post(endpoint, {domainName: domainName}).then(r => filterDomains(r));
         clearInput();
@@ -68,6 +72,21 @@
 
     async function getAllDomains() {
         domains = await http.get(endpoint).then(r => filterDomains(r));
+    }
+
+    function showConfirmation(event) {
+        domainToDelete = event.detail.dataValue;
+        showConfirmation = true;
+    }
+
+    function hideConfirmation(event) {
+        clearInput();
+    }
+
+    async function deleteDomain(event) {
+        domains = null;
+        domains = await http.delete(endpoint, {domainName: domainToDelete}).then(r => filterDomains(r));
+        clearInput();
     }
 
     onMount(getAllDomains);
@@ -78,15 +97,30 @@
     <input id="domain" type="text" bind:value={domainName}>
     <button on:click={addDomain}>Add</button>
 </div>
+
 {#if domains != null}
     <ul class="scrollable-list">
         {#each domains as domain}
             <ListItem 
                 displayValue={domain.slice(1, domain.length)}
                 dataValue={domain}
+                deletable={true}
+                on:delete={showConfirmation}
             />
         {/each}
     </ul>
 {:else}
     <LoadingSpinner />
+{/if}
+
+{#if displayConfirmation}
+    <Modal 
+        title={'Confirm Deletion'}
+        prompt={'Are you sure you want to delete ' + domainToDelete + ' from the whitelist?'}
+        affirmText={'Yes'}
+        negativeText={'No'}
+        on:exitModal={hideConfirmation}
+        on:btnNegativeClicked={hideConfirmation}
+        on:btnAffirmativeClicked={deleteDomain}
+    />
 {/if}

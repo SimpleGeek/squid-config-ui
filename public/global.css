@@ -8,6 +8,8 @@
 	--bg-color: white;
 	--accent-color: #58cc3b;
 	--alt-accent-color: #3a8e25;
+	--danger-color: rgb(225, 5, 0);
+	--alt-danger-color: #c80000;
 }
 
 [data-theme="dark"] {
@@ -19,6 +21,8 @@
 	--bg-color: #2c2c2c;
 	--accent-color: #a733c4;
 	--alt-accent-color: #c571da;
+	--danger-color:#00ced3;
+	--alt-danger-color: #37ffff;
 }
 /* End CSS custom properties */
 
@@ -158,6 +162,14 @@ button {
 
 button:hover {
 	background-color: var(--alt-accent-color);
+}
+
+button.delete-button {
+	background-color: var(--danger-color);
+}
+
+button.delete-button:hover {
+	background-color: var(--alt-danger-color);
 }
 
 .topnav {

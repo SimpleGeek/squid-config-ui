@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
-    let state = false;
+    export let state = false;
     function handleClick() {
         // Toggle switch state
         state = !state;
