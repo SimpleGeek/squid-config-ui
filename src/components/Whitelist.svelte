@@ -76,7 +76,7 @@
 
     function showConfirmation(event) {
         domainToDelete = event.detail.dataValue;
-        showConfirmation = true;
+        displayConfirmation = true;
     }
 
     function hideConfirmation(event) {
@@ -101,7 +101,7 @@
 {#if domains != null}
     <ul class="scrollable-list">
         {#each domains as domain}
-            <ListItem 
+            <ListItem
                 displayValue={domain.slice(1, domain.length)}
                 dataValue={domain}
                 deletable={true}

@@ -3,8 +3,7 @@
 
     /* Set a style for all buttons */
     button {
-        background-color: #4CAF50;
-        color: white;
+        color: var(--font-color);
         padding: 14px 20px;
         margin: 8px 0;
         border: none;
@@ -23,12 +22,11 @@
     }
     /* Add a color to the cancel button */
     .cancelbtn {
-        background-color: #ccc;
-        color: black;
+        background-color: var(--secondary-color);
     }
     /* Add a color to the delete button */
     .deletebtn {
-        background-color: #f44336;
+        background-color: var(--accent-color);
     }
     /* Add padding and center-align text to the container */
     .container {
@@ -45,12 +43,12 @@
         width: 100%; /* Full width */
         height: 100%; /* Full height */
         overflow: auto; /* Enable scroll if needed */
-        background-color: #474e5d;
+        background-color: var(--bg-color);
         padding-top: 50px;
     }
     /* Modal Content/Box */
     .modal-content {
-        background-color: #fefefe;
+        background-color: var(--primary-color);
         margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
         border: 1px solid #888;
         width: 40%; /* Could be more or less, depending on screen size */
@@ -119,8 +117,8 @@
         <p>{prompt}</p>
   
         <div class="clearfix">
-          <button type="button" class="cancelbtn" on:click={btnNegativeClicked}>{negativeText}</button>
           <button type="button" class="deletebtn" on:click={btnAffirmativeClicked}>{affirmText}</button>
+          <button type="button" class="cancelbtn" on:click={btnNegativeClicked}>{negativeText}</button>
         </div>
       </div>
     </form>
