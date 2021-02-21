@@ -53,6 +53,13 @@
         displayConfirmation = false;
     }
 
+    function formatDomainForDisplay(d) {
+        // Domain names are returned from
+        // the whitelist with some metacharacters,
+        // so we need to trim those off.
+        return d.slice(1, d.length);
+    }
+
     function filterDomains(domainList) {
         // Remove comments from list of domain names
         return domainList.filter(d => !d.startsWith('#'));
@@ -102,7 +109,7 @@
     <ul class="scrollable-list">
         {#each domains as domain}
             <ListItem
-                displayValue={domain.slice(1, domain.length)}
+                displayValue={formatDomainForDisplay(domain)}
                 dataValue={domain}
                 deletable={true}
                 on:delete={showConfirmation}
@@ -116,11 +123,11 @@
 {#if displayConfirmation}
     <Modal 
         title={'Confirm Deletion'}
-        prompt={'Are you sure you want to delete ' + domainToDelete + ' from the whitelist?'}
+        prompt={'Are you sure you want to delete ' + formatDomainForDisplay(domainToDelete) + ' from the whitelist?'}
         affirmText={'Yes'}
         negativeText={'No'}
-        on:exitModal={hideConfirmation}
-        on:btnNegativeClicked={hideConfirmation}
-        on:btnAffirmativeClicked={deleteDomain}
+        on:exit={hideConfirmation}
+        on:negative={hideConfirmation}
+        on:affirmative={deleteDomain}
     />
 {/if}

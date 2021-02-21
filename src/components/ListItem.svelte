@@ -1,12 +1,20 @@
 <style>
     button.delete-button {
         position: absolute;
-        bottom: 0.5px;
+        bottom: 0px;
         right: 0px;
     }
 
     li {
         position: relative;
+    }
+
+    @media all and (max-width: 500px) {
+        button.delete-button {
+            height: 100%;
+            width: 30px;
+            padding: 2px 2px 2px 2px;
+        }
     }
 </style>
 

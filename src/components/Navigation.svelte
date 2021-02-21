@@ -1,6 +1,6 @@
 <script>
     import Slider from './Slider.svelte';
-    import DeviceManager from './DeviceManager.svelte';
+    import DeviceManager from './BypassManager.svelte';
     import Whitelist from './Whitelist.svelte';
     import { createEventDispatcher, onMount } from 'svelte';
     const dispatch = createEventDispatcher();
@@ -39,7 +39,7 @@
 </script>
 
 <div class="topnav">
-    <a href="#a" on:click={() => {navigate(DeviceManager)}}>Devices</a>
+    <a href="#a" on:click={() => {navigate(DeviceManager)}}>Bypass</a>
     <a href="#a" on:click={() => {navigate(Whitelist)}}>Whitelist</a>
     <Slider on:toggle={handleThemeToggle} state={toggleState} />
 </div> 

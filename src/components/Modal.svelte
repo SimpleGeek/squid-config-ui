@@ -64,7 +64,7 @@
     }
     .close:hover,
     .close:focus {
-        color: #f44336;
+        color: var(--danger-color);
         cursor: pointer;
     }
     /* Clear floats */
