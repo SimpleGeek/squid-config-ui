@@ -90,11 +90,9 @@ export default class HttpHelper {
                 }
                 this.numRetries++;
                 await this.getToken();
-                console.log("Retrying with this token:\n" + this.currentToken);
                 json = await this.request(endpoint, reqMethod, requestParams, body);
                 return json;
             } else {
-                // TODO: This needs to be better.  A lot better.
                 console.log(JSON.stringify(response));
                 alert('We had a server error.  Check the logs.');
                 this.numRetries = 0;

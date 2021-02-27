@@ -62,13 +62,11 @@
 
     function filterDomains(domainList) {
         // Remove comments from list of domain names
-        console.log('Here is the list: ' + JSON.stringify(domainList)); // TODO
         return domainList.filter(d => !d.startsWith('#'));
     }
 
     async function addDomain() {
         if (util.isEmptyOrSpaces(domainName)) {
-            // TODO: Need to do more validation here
             alert('Domain name is invalid');
             return;
         }
@@ -90,7 +88,6 @@
     }
 
     async function getAllDomains() {
-        //domains = await http.get(endpoint).then(r => filterDomains(r));
         let resp = await http.get(endpoint);
         domains = filterDomains(resp.json);
     }
@@ -106,17 +103,16 @@
 
     async function deleteDomain(event) {
         domains = null;
-        //domains = await http.delete(endpoint, {domainName: domainToDelete}).then(r => filterDomains(r));
         let resp = await http.delete(endpoint, {domainName: domainToDelete});
         if (resp.success) {
             dispatch('notify', {
-                msg: 'Deleted ' + domainToDelete + ' successfully'
+                msg: 'Deleted ' + formatDomainForDisplay(domainToDelete) + ' successfully'
             });
             domains = filterDomains(resp.json);
         } else {
             await getAllDomains();
             dispatch('notify', {
-                msg: 'Failed to delete ' + domainToDelete
+                msg: 'Failed to delete ' + formatDomainForDisplay(domainToDelete)
             });
         }
         clearInput();
