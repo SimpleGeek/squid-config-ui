@@ -1,9 +1,9 @@
 <script>
 	import Navigation from './components/Navigation.svelte';
 	import Notification from './components/Notification.svelte';
-	import Whitelist from './components/Whitelist.svelte';
+	import BypassManager from './components/BypassManager.svelte';
 
-	let activeComponent = Whitelist;
+	let activeComponent = BypassManager;
 
 	function handleNavigation(event) {
 		activeComponent = event.detail.destination;
@@ -13,6 +13,8 @@
 	let notificationMsg = null;
 	function displayNotification(event) {
 		// TODO: It should be possible to click these notifications away somehow
+		// TODO: Also need to fix the issue with replacing the notification message
+		// without resetting the timeout.
 		notificationMsg = event.detail.msg;
 		notificationOn = true;
 		// Remove toast after 8 seconds

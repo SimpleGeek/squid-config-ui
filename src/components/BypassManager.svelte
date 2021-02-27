@@ -25,6 +25,8 @@
 </style>
 
 <script>
+    import { onMount } from 'svelte';
+    import ListItem from './ListItem.svelte';
     import HttpHelper from '../JSUtil/httphelper.js';
     const http = new HttpHelper();
 
@@ -44,6 +46,22 @@
 
         clearInput();
     }
+
+    let currentBypassList = null;
+
+    async function getCurrentBypassList() {
+        let resp = await http.get(endpoint);
+
+        if (resp.success) {
+            currentBypassList = resp.json;
+        }
+    }
+
+    async function cancelBypass() {
+
+    }
+
+    onMount(getCurrentBypassList);
 </script>
 
 <div class="control-container">
@@ -53,3 +71,18 @@
     </div>
     <button on:click={requestBypass}>Add</button>
 </div>
+
+{#if currentBypassList != null && currentBypassList.length > 0}
+    <ul class="scrollable-list">
+        {#each currentBypassList as bypass}
+            <ListItem
+                displayValue={'Bypass expires at ' + bypass.executeTime}
+                dataValue={bypass.id}
+                deletable={true}
+                on:delete={cancelBypass}
+            />
+        {/each}
+    </ul>
+{:else}
+    <p>There are currently no active bypasses</p>
+{/if}
