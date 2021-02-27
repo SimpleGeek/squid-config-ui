@@ -71,9 +71,13 @@ export default class HttpHelper {
         }
 
         const response = await fetch(fullUrl, fetchSettings);
-        let json;
+        let json = {};
+        let statusCode = 200;
+        let success = true;
         // If anything other than a 401 occurs, reset the retry count.
         if (!response.ok) {
+            success = false;
+            statusCode = response.status;
             if (response.status == 401) {
                 // Access was denied, we need to get
                 // a new token, and retry the request.
@@ -88,6 +92,7 @@ export default class HttpHelper {
                 await this.getToken();
                 console.log("Retrying with this token:\n" + this.currentToken);
                 json = await this.request(endpoint, reqMethod, requestParams, body);
+                return json;
             } else {
                 // TODO: This needs to be better.  A lot better.
                 console.log(JSON.stringify(response));
@@ -98,7 +103,7 @@ export default class HttpHelper {
             this.numRetries = 0;
             json = await response.json();
         }
-        return json;
+        return {json: json, success: success, status: statusCode};
     }
 
     async getToken() {
