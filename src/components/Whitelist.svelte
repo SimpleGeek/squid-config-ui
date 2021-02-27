@@ -62,6 +62,7 @@
 
     function filterDomains(domainList) {
         // Remove comments from list of domain names
+        console.log('Here is the list: ' + JSON.stringify(domainList)); // TODO
         return domainList.filter(d => !d.startsWith('#'));
     }
 
@@ -73,12 +74,25 @@
         }
 
         domains = null;
-        domains = await http.post(endpoint, {domainName: domainName}).then(r => filterDomains(r));
+        let resp = await http.post(endpoint, {domainName: domainName});
+        if (resp.success) {
+            dispatch('notify', {
+                msg: 'Added ' + domainName + ' successfully'
+            });
+            domains = filterDomains(resp.json);
+        } else {
+            await getAllDomains();
+            dispatch('notify', {
+                msg: 'Failed to add ' + domainName
+            });
+        }
         clearInput();
     }
 
     async function getAllDomains() {
-        domains = await http.get(endpoint).then(r => filterDomains(r));
+        //domains = await http.get(endpoint).then(r => filterDomains(r));
+        let resp = await http.get(endpoint);
+        domains = filterDomains(resp.json);
     }
 
     function showConfirmation(event) {
@@ -92,7 +106,19 @@
 
     async function deleteDomain(event) {
         domains = null;
-        domains = await http.delete(endpoint, {domainName: domainToDelete}).then(r => filterDomains(r));
+        //domains = await http.delete(endpoint, {domainName: domainToDelete}).then(r => filterDomains(r));
+        let resp = await http.delete(endpoint, {domainName: domainToDelete});
+        if (resp.success) {
+            dispatch('notify', {
+                msg: 'Deleted ' + domainToDelete + ' successfully'
+            });
+            domains = filterDomains(resp.json);
+        } else {
+            await getAllDomains();
+            dispatch('notify', {
+                msg: 'Failed to delete ' + domainToDelete
+            });
+        }
         clearInput();
     }
 
