@@ -37,6 +37,11 @@
         minutes = null;
     }
 
+    function formatTimeForDisplay(time) {
+        let arr = time.toString().split(',');
+        return arr[3] + ':' + arr[4] + ' on ' + arr[1] + '/' + arr[2] + '/' + arr[0];
+    }
+
     async function requestBypass() {
         if (minutes == null || minutes < 1) {
             alert('Number of minutes is invalid');
@@ -45,6 +50,8 @@
         await http.post(endpoint, {minutes: minutes});
 
         clearInput();
+
+        await getCurrentBypassList();
     }
 
     let currentBypassList = null;
@@ -76,7 +83,7 @@
     <ul class="scrollable-list">
         {#each currentBypassList as bypass}
             <ListItem
-                displayValue={'Bypass expires at ' + bypass.executeTime}
+                displayValue={'Bypass expires at ' + formatTimeForDisplay(bypass.executeTime)}
                 dataValue={bypass.id}
                 deletable={true}
                 on:delete={cancelBypass}
