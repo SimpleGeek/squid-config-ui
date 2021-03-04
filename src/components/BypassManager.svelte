@@ -25,9 +25,10 @@
 </style>
 
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, createEventDispatcher } from 'svelte';
     import ListItem from './ListItem.svelte';
     import HttpHelper from '../JSUtil/httphelper.js';
+    const dispatch = createEventDispatcher();
     const http = new HttpHelper();
 
     const endpoint = 'squid-configuration/schedule-bypass';
@@ -39,7 +40,9 @@
 
     function formatTimeForDisplay(time) {
         let arr = time.toString().split(',');
-        return arr[3] + ':' + arr[4] + ' on ' + arr[1] + '/' + arr[2] + '/' + arr[0];
+        // Is this bad?  Yes.  It also works, though.
+        return arr[3] + ':' + (arr[4].length > 1 ? arr[4] : '0' + arr[4]) + ' on '
+                + arr[1] + '/' + arr[2] + '/' + arr[0];
     }
 
     async function requestBypass() {
@@ -47,7 +50,16 @@
             alert('Number of minutes is invalid');
         }
 
-        await http.post(endpoint, {minutes: minutes});
+        let resp = await http.post(endpoint, {minutes: minutes});
+        if (resp.success) {
+            dispatch('notify', {
+                msg: 'Successfully added bypass'
+            });
+        } else {
+            dispatch('notify', {
+                msg: 'Failed to add bypass'
+            });
+        }
 
         clearInput();
 
@@ -61,11 +73,25 @@
 
         if (resp.success) {
             currentBypassList = resp.json;
+        } else {
+            alert('There was an error getting the current bypass list.');
         }
     }
 
     async function cancelBypass() {
+        let resp = await http.delete(endpoint);
 
+        if (resp.success) {
+            dispatch('notify', {
+                msg: 'Successfully added bypass'
+            });
+        } else {
+            dispatch('notify', {
+                msg: 'Failed to add bypass'
+            });
+        }
+
+        await getCurrentBypassList();
     }
 
     onMount(getCurrentBypassList);
@@ -85,11 +111,10 @@
             <ListItem
                 displayValue={'Bypass expires at ' + formatTimeForDisplay(bypass.executeTime)}
                 dataValue={bypass.id}
-                deletable={true}
-                on:delete={cancelBypass}
             />
         {/each}
     </ul>
+    <button on:click={cancelBypass}>Cancel All</button>
 {:else}
     <p>There are currently no active bypasses</p>
 {/if}

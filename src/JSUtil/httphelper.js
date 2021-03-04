@@ -22,6 +22,10 @@ export default class HttpHelper {
         return await this.request(endpoint, 'POST', requestParams, body);
     }
 
+    async delete(endpoint) {
+        return await this.delete(endpoint, null);
+    }
+
     async delete(endpoint, requestParams) {
         return await this.request(endpoint, 'DELETE', requestParams);
     }
