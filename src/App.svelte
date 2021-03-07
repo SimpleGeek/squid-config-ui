@@ -2,6 +2,7 @@
 	import Navigation from './components/Navigation.svelte';
 	import Notification from './components/Notification.svelte';
 	import BypassManager from './components/BypassManager.svelte';
+	import Login from './components/Login.svelte';
 
 	let activeComponent = BypassManager;
 
@@ -22,6 +23,8 @@
 			notificationOn = false;
 		}, 8000);
 	}
+
+	let loggedIn = false;
 </script>
 
 <Navigation on:navigate={handleNavigation} />
@@ -29,8 +32,12 @@
 	<Notification msg={notificationMsg} />
 {/if}
 <main class="container">
-	<svelte:component this={activeComponent} 
-		on:navigate={handleNavigation} 
-		on:notify={displayNotification}
-	/>
+	{#if loggedIn}
+		<svelte:component this={activeComponent} 
+			on:navigate={handleNavigation} 
+			on:notify={displayNotification}
+		/>
+	{:else}
+		<Login />
+	{/if}
 </main>
