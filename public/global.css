@@ -97,6 +97,15 @@ body {
 	padding-right: 10px;
 }
 
+@media all and (max-width: 500px) {
+	.notification {
+		top: 600px;
+		left: 7.5%;
+		width: 323px;
+		height: 45px;
+	}
+}
+
 label {
 	font-size: 18px;
 }

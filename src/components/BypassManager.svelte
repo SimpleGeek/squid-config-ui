@@ -40,7 +40,8 @@
 
     function formatTimeForDisplay(time) {
         let arr = time.toString().split(',');
-        // Is this bad?  Yes.  It also works, though.
+        // Is this bad?  Yes.  It works, though.
+        // TODO: Use real JS date formatting here at some point.
         return arr[3] + ':' + (arr[4].length > 1 ? arr[4] : '0' + arr[4]) + ' on '
                 + arr[1] + '/' + arr[2] + '/' + arr[0];
     }
@@ -83,11 +84,11 @@
 
         if (resp.success) {
             dispatch('notify', {
-                msg: 'Successfully added bypass'
+                msg: 'Successfully canceled bypass'
             });
         } else {
             dispatch('notify', {
-                msg: 'Failed to add bypass'
+                msg: 'Failed to cancel bypass'
             });
         }
 
