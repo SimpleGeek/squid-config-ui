@@ -22,7 +22,7 @@
         button, input {
             margin-left: 0%;
             margin-top: 2%;
-            width: 198px;
+            width: 100%;
         }
     }
 </style>

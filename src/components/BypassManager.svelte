@@ -16,10 +16,15 @@
         button {
             margin-left: 0%;
             margin-top: 5%;
+            width: 100%;
         }
 
         .control-container {
             margin-left: 0%;
+        }
+
+        ul.scrollable-list {
+            height: 70px;
         }
     }
 </style>

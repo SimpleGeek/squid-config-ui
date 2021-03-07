@@ -138,6 +138,12 @@ ul {
 	width: 75%;
 }
 
+@media all and (max-width: 500px) {
+	ul {
+		width: 100%;
+	}
+}
+
 ul.scrollable-list {
 	height: 200px;
 	overflow: hidden;
