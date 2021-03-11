@@ -1,5 +1,9 @@
+import { userCredentials } from '../stores/userstore.js';
+
 export default class HttpHelper {
-    constructor() {
+    constructor(username, password) {
+        this.username = username;
+        this.password = password;
         this.BASE_URL = 'http://192.168.1.49:8080/';
         this.currentToken = '';
         this.MAX_RETRIES = 3;
@@ -114,9 +118,9 @@ export default class HttpHelper {
         authReqHeaders.append("Accept", "application/json");
         authReqHeaders.append("Content-Type", "application/json");
 
-        // TODO: Longterm, we really don't want the username and password in plain
-        // text.  Those should be entered by the user.
-        const response = await fetch(this.BASE_URL + "/squid-configuration/authenticate?user=admin&password=somepass",
+        const response = await fetch(this.BASE_URL + "/squid-configuration/authenticate?user=" 
+                                        + this.username
+                                        + "&password=" + this.password,
         {
             method: 'POST',
             headers: authReqHeaders,

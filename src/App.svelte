@@ -25,6 +25,9 @@
 	}
 
 	let loggedIn = false;
+	function handleLogin(event) {
+		loggedIn = true;
+	}
 </script>
 
 <Navigation on:navigate={handleNavigation} />
@@ -38,6 +41,6 @@
 			on:notify={displayNotification}
 		/>
 	{:else}
-		<Login />
+		<Login on:login={handleLogin}/>
 	{/if}
 </main>

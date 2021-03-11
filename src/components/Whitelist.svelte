@@ -35,16 +35,17 @@
     import LoadingSpinner from './LoadingSpinner.svelte';
     import Modal from './Modal.svelte';
     import Util from '../JSUtil/util.js';
+    import { userCredentials } from '../stores/userstore.js';
     import HttpHelper from '../JSUtil/httphelper.js';
     let util = new Util();
-    let http = new HttpHelper();
+    let http = new HttpHelper($userCredentials.username, $userCredentials.password);
 
     let displayConfirmation = false;
     let domainToDelete = '';
 
     let domainName = null;
     let domains = null;
-    const listId = 0;
+    const listId = 0; // TODO: Prod listId is 1
     const endpoint = 'squid-configuration/whitelist-domains/' + listId;
 
     function clearInput() {

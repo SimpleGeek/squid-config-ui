@@ -32,9 +32,10 @@
 <script>
     import { onMount, createEventDispatcher } from 'svelte';
     import ListItem from './ListItem.svelte';
+    import { userCredentials } from '../stores/userstore.js';
     import HttpHelper from '../JSUtil/httphelper.js';
     const dispatch = createEventDispatcher();
-    const http = new HttpHelper();
+    const http = new HttpHelper($userCredentials.username, $userCredentials.password);
 
     const endpoint = 'squid-configuration/schedule-bypass';
     let minutes;
