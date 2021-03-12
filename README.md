@@ -1,8 +1,8 @@
 # Squid Config UI
-Squid Config UI is a web UI built with svelte.  For more info on svelte, see [svelte.dev]: https://svelte.dev.
+Squid Config UI is a web UI built with svelte.  For more info on svelte, see [svelte.dev](https://svelte.dev).
 
 ## About
-Squid config UI (SCU) provides a web interface over this the [squid configuration api]: https://github.com/LiveByTheCode/squid-configuration-services.  Currently, the app has two main functions: allowing for maintenance of a proxy whitelist,
+Squid config UI (SCU) provides a web interface over this the [squid configuration api](https://github.com/LiveByTheCode/squid-configuration-services).  Currently, the app has two main functions: allowing for maintenance of a proxy whitelist,
 and implementing temporary bypasses of the whitelist.  If you want to run the app, see the list of instructions in the
 deployment section of this document.
 
@@ -15,13 +15,18 @@ with any reasonably recent version of node.)
 
 One more caveat: the local IP of the server hosting the API back end is hardcoded into the project
 at the moment.  Currently, this code is in two places, Login.svelte and httphelper.js.  If your IP
-differs from the one in this project, you'll need to correct that.  See issue [number 7]: https://github.com/SimpleGeek/squid-config-ui/issues/7.
+differs from the one in this project, you'll need to correct that.  See [issue number 7](https://github.com/SimpleGeek/squid-config-ui/issues/7).
 
 ### Running in dev mode
 First, create a directory to hold the source of the project, and then change into it.
 The rest of the work will be done from here.
 
-Next, install the dependencies:
+Next, you'll need to clone the source of the application:
+```
+git clone https://github.com/SimpleGeek/squid-config-ui.git
+```
+
+Now, install the project dependencies:
 ```
 npm install
 ```
@@ -58,7 +63,7 @@ be doing the remainder of the work.
 
 Next, you'll need to clone the source of the application:
 ```
-git clone https://github.com/SimpleGeek/whitelist-manager.git
+git clone https://github.com/SimpleGeek/squid-config-ui.git
 ```
 
 Now, install the project dependencies:
