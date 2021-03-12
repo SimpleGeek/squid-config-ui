@@ -2,7 +2,7 @@
 Squid Config UI is a web UI built with svelte.  For more info on svelte, see [svelte.dev](https://svelte.dev).
 
 ## About
-Squid config UI (SCU) provides a web interface over this the [squid configuration api](https://github.com/LiveByTheCode/squid-configuration-services).  Currently, the app has two main functions: allowing for maintenance of a proxy whitelist,
+Squid config UI (SCU) provides a web interface over the [squid configuration api](https://github.com/LiveByTheCode/squid-configuration-services).  Currently, the app has two main functions: allowing for maintenance of a proxy whitelist,
 and implementing temporary bypasses of the whitelist.  If you want to run the app, see the list of instructions in the
 deployment section of this document.
 
