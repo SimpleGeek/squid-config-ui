@@ -13,7 +13,6 @@
 	let notificationOn = false;
 	let notificationMsg = null;
 	function displayNotification(event) {
-		// TODO: It should be possible to click these notifications away somehow
 		// TODO: Also need to fix the issue with replacing the notification message
 		// without resetting the timeout.
 		notificationMsg = event.detail.msg;
@@ -24,6 +23,10 @@
 		}, 8000);
 	}
 
+	function dismissNotification(event) {
+		notificationOn = false;
+	}
+
 	let loggedIn = false;
 	function handleLogin(event) {
 		loggedIn = true;
@@ -32,7 +35,7 @@
 
 <Navigation on:navigate={handleNavigation} />
 {#if notificationOn}
-	<Notification msg={notificationMsg} />
+	<Notification msg={notificationMsg} on:dismiss={dismissNotification} />
 {/if}
 <main class="container">
 	{#if loggedIn}
