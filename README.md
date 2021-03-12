@@ -44,6 +44,7 @@ To deploy as static content within a spring boot app, copy all
 files under the /public directory directly underneath the /src/main/resources/static
 folder in the spring boot project.  The directory structure should look like this:
 
+```
 static
 ├── build
 │   ├── bundle.css
@@ -51,6 +52,7 @@ static
 │   └── bundle.js.map
 ├── global.css
 └── index.html
+```
 
 No further action is needed.  The UI should be reachable at http://localhost:YOUR_SPRING_BOOT_PORT/index.html
 once your app is running.
