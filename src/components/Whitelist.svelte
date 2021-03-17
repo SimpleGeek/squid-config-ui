@@ -45,7 +45,7 @@
 
     let domainName = null;
     let domains = null;
-    const listId = 1;
+    const listId = 0;
     const endpoint = 'squid-configuration/whitelist-domains/' + listId;
 
     function clearInput() {
