@@ -52,6 +52,13 @@
                 + arr[1] + '/' + arr[2] + '/' + arr[0];
     }
 
+    async function handleRequestBypass(e) {
+        if (e.keyCode == 13) {
+            // Enter key pressed
+            await requestBypass();
+        }
+    }
+
     async function requestBypass() {
         if (minutes == null || minutes < 1) {
             alert('Number of minutes is invalid');
@@ -107,7 +114,7 @@
 <div class="control-container">
     <div>
         <label for="minutes">Open minutes:</label>
-        <input id="minutes" type="number" bind:value={minutes}>
+        <input id="minutes" type="number" bind:value={minutes} on:keypress={handleRequestBypass}>
     </div>
     <button on:click={requestBypass}>Add</button>
 </div>

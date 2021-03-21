@@ -23,6 +23,13 @@
     let username = null;
     let password = null;
     
+    async function handleLogin(e) {
+        if (e.keyCode == 13) {
+            // Enter key was pressed
+            await login();
+        }
+    }
+
     async function login() {
         if (util.isEmptyOrSpaces(username)) {
             alert('Enter a username');
@@ -60,7 +67,7 @@
 
 <div class="column-container">
     <h2>Login</h2>
-    <input placeholder="Username" type="text" bind:value={username}>
-    <input placeholder="Password" type="password" bind:value={password}>
-    <button on:click={login}>Login</button>
+    <input placeholder="Username" type="text" bind:value={username} on:keypress={handleLogin}>
+    <input placeholder="Password" type="password" bind:value={password} on:keypress={handleLogin}>
+    <button type="submit" on:click={login}>Login</button>
 </div>

@@ -66,6 +66,13 @@
         return domainList.filter(d => !d.startsWith('#'));
     }
 
+    async function handleAddDomain(e) {
+        if (e.keyCode == 13) {
+            // Enter key was pressed
+            await addDomain();
+        }
+    }
+
     async function addDomain() {
         if (util.isEmptyOrSpaces(domainName)) {
             alert('Domain name is invalid');
@@ -124,7 +131,7 @@
 
 <div class="control-container">
     <label for="domain">New domain:</label>
-    <input id="domain" type="text" bind:value={domainName}>
+    <input id="domain" type="text" bind:value={domainName} on:keypress={handleAddDomain}>
     <button on:click={addDomain}>Add</button>
 </div>
 
