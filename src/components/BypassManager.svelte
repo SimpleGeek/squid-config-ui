@@ -40,6 +40,12 @@
     const endpoint = 'squid-configuration/schedule-bypass';
     let minutes;
 
+    async function refreshBypassList() {
+        let numSeconds = 5;
+        await getCurrentBypassList();
+        await setTimeout(refreshBypassList, numSeconds*1000);
+    }
+
     function clearInput() {
         minutes = null;
     }
@@ -108,7 +114,7 @@
         await getCurrentBypassList();
     }
 
-    onMount(getCurrentBypassList);
+    onMount(refreshBypassList);
 </script>
 
 <div class="control-container">

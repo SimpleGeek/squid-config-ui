@@ -48,6 +48,12 @@
     const listId = 0;
     const endpoint = 'squid-configuration/whitelist-domains/' + listId;
 
+    async function refreshWhitelist() {
+        let numSeconds = 5;
+        await getAllDomains();
+        await setTimeout(refreshWhitelist, numSeconds*1000);
+    }
+
     function clearInput() {
         domainName = null;
         domainToDelete = '';
@@ -126,7 +132,7 @@
         clearInput();
     }
 
-    onMount(getAllDomains);
+    onMount(refreshWhitelist);
 </script>
 
 <div class="control-container">
