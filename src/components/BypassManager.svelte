@@ -34,8 +34,10 @@
     import ListItem from './ListItem.svelte';
     import { userCredentials } from '../stores/userstore.js';
     import HttpHelper from '../JSUtil/httphelper.js';
+    import Util from '../JSUtil/util.js';
     const dispatch = createEventDispatcher();
     const http = new HttpHelper($userCredentials.username, $userCredentials.password);
+    const util = new Util();
 
     const endpoint = 'squid-configuration/schedule-bypass';
     let minutes;
@@ -50,12 +52,28 @@
         minutes = null;
     }
 
+    function convertTo12Hr(hours) {
+        let returnObj = {};
+        
+        if (hours >= 12 && hours <= 23) {
+            returnObj.meridianInd = 'PM';
+        } else {
+            returnObj.meridianInd = 'AM';
+        }
+
+        if (hours > 12) {
+            returnObj.hours = (hours - 12);
+        } else {
+            returnObj.hours = hours;
+        }
+        
+        return returnObj;
+    }
+
     function formatTimeForDisplay(time) {
-        let arr = time.toString().split(',');
-        // Is this bad?  Yes.  It works, though.
-        // TODO: Use real JS date formatting here at some point.
-        return arr[3] + ':' + (arr[4].length > 1 ? arr[4] : '0' + arr[4]) + ' on '
-                + arr[1] + '/' + arr[2] + '/' + arr[0];
+        let hourObj = convertTo12Hr(time[3]);
+        return hourObj.hours + ':' + (time[4].toString().length > 1 ? time[4] : '0' + time[4]) + ' ' + hourObj.meridianInd
+                + ' on ' + time[1] + '/' + time[2] + '/' + time[0];
     }
 
     async function handleRequestBypass(e) {
