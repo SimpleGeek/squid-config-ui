@@ -69,7 +69,8 @@
 
     function filterDomains(domainList) {
         // Remove comments from list of domain names
-        return domainList.filter(d => !d.startsWith('#'));
+        return domainList.filter(d => !d.startsWith('#'))
+                .sort((a, b) => a.localeCompare(b));
     }
 
     async function handleAddDomain(e) {
