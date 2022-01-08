@@ -67,7 +67,8 @@
 
 <div class="column-container">
     <h2>Login</h2>
-    <input placeholder="Username" type="text" bind:value={username} on:keypress={handleLogin}>
+    <!-- svelte-ignore a11y-autofocus -->
+    <input placeholder="Username" type="text" bind:value={username} on:keypress={handleLogin} autofocus>
     <input placeholder="Password" type="password" bind:value={password} on:keypress={handleLogin}>
     <button type="submit" on:click={login}>Login</button>
 </div>

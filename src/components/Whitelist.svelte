@@ -138,7 +138,8 @@
 
 <div class="control-container">
     <label for="domain">New domain:</label>
-    <input id="domain" type="text" bind:value={domainName} on:keypress={handleAddDomain}>
+    <!-- svelte-ignore a11y-autofocus -->
+    <input id="domain" type="text" bind:value={domainName} on:keypress={handleAddDomain} autofocus>
     <button on:click={addDomain}>Add</button>
 </div>
 

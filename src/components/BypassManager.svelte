@@ -138,7 +138,8 @@
 <div class="control-container">
     <div>
         <label for="minutes">Open minutes:</label>
-        <input id="minutes" type="number" bind:value={minutes} on:keypress={handleRequestBypass}>
+        <!-- svelte-ignore a11y-autofocus -->
+        <input id="minutes" type="number" bind:value={minutes} on:keypress={handleRequestBypass} autofocus>
     </div>
     <button on:click={requestBypass}>Add</button>
 </div>
